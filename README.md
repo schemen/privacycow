@@ -69,3 +69,30 @@ Commands:
   list     Lists all aliases with the configured privacy domain.
 
 ```
+
+
+## Examples
+
+```
+➜  privacycow add -c "terrible place"
+Success! The following Alias has been created:
+Alias ID:       29
+Alias Email:    5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacycow.com
+Alias Comment:  terrible place
+
+
+➜  privacycow disable 29             
+Success! The following Alias disabled:
+Alias ID:       29
+Alias Email:    5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacyfwd.ch
+
+
+
+➜  privacycow list      
+ID                        Alias                           Comment       Active 
+===============================================================================
+22   pQf6qmgMxpa8C.c1Q3sdpDZarqf4ggCe2@privacycow.com  bad actor        Active 
+28   mX4WjTjHcJwa96Vk.xEKpPKbgArysoWvg@privacycow.com  test             Active 
+29   5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacycow.com  terrible place   Discard
+
+``` 
