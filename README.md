@@ -30,6 +30,11 @@ source venv/bin/activate
 pip install -r requirements.txt
 deactivate
 
+```
+
+Adjust settings, see options further down
+
+```
 # configure your config.ini
 # run privacycow once, it will create a samply config file at
 # ~/.config/privacycow/config.ini
