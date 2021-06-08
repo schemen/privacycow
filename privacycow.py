@@ -170,7 +170,7 @@ def delete(ctx, alias_id):
 
 
 def random_string_generator():
-    return ''.join(random.choice(ALLOWED_CHARS) for x in range(16))
+    return ''.join(random.choice(ALLOWED_CHARS) for x in range(12))
 
 ## Uncomment if you want to use it without installing it
 # if __name__ == '__main__':
