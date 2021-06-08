@@ -3,7 +3,7 @@
 ## Install
 
 ```console
-python3 -m pip install git+ssh://git@github.com:schemen/privacycow.git#egg=privacycow
+python3 -m pip install git+https://github.com/schemen/privacycow.git#egg=privacycow
 ```
 
 In "developer mode" (editable):
