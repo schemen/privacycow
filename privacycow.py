@@ -60,6 +60,7 @@ def list(ctx):
 
     table = texttable.Texttable()
     table.set_deco(texttable.Texttable.HEADER)
+    table.set_max_width(0)
     table.header(["ID", "Alias", "Comment", "Active"])
 
     for i in r.json():
