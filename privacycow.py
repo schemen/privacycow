@@ -83,7 +83,7 @@ def add(ctx, goto, comment):
     API_ENDPOINT = "/api/v1/add/alias"
     headers = {'X-API-Key': MAILCOW_API_KEY}
 
-    data = { "address": random_string_generator() + "." + random_string_generator() + "@" + RELAY_DOMAIN, "goto": goto, "public_comment": comment}
+    data = { "address": random_string_generator() + "." + random_string_generator() + "@" + RELAY_DOMAIN, "goto": goto, "public_comment": comment, "active": 1}
 
     try:
         r = requests.post(MAILCOW_INSTANCE+API_ENDPOINT, headers=headers, json=data)
