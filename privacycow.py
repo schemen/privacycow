@@ -7,7 +7,8 @@ import random
 import string
 from shutil import copyfile
 from pkg_resources import Requirement, resource_filename
-
+import socket
+import urllib3.util.connection as urllib3_cn
 
 import click
 import requests
@@ -172,6 +173,17 @@ def delete(ctx, alias_id):
 
 def random_string_generator():
     return ''.join(random.choice(ALLOWED_CHARS) for x in range(12))
+
+# Mailcow IPv6 support relies on a docker proxy which in case would nullify the use of the whitelist.
+# This patch forces the connection to use IPv4
+def allowed_gai_family():
+    """
+        https://stackoverflow.com/a/46972341
+    """
+    return socket.AF_INET
+
+urllib3_cn.allowed_gai_family = allowed_gai_family
+
 
 ## Uncomment if you want to use it without installing it
 # if __name__ == '__main__':

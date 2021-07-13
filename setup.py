@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='privacycow',
-    version='0.0.2',
+    version='0.0.3',
     py_modules=['privacycow'],
     install_requires=[
         'Click==8.0.1',
