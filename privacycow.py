@@ -33,7 +33,8 @@ RELAY_DOMAIN = env.get("RELAY_DOMAIN", config['DEFAULT']['RELAY_DOMAIN'])
 MAILCOW_API_KEY = env.get("MAILCOW_API_KEY", config['DEFAULT']['MAILCOW_API_KEY'])
 MAILCOW_INSTANCE = env.get("MAILCOW_INSTANCE", config['DEFAULT']['MAILCOW_INSTANCE'])
 GOTO = env.get("GOTO", config['DEFAULT']['GOTO'])
-ALLOWED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+VOWELS = "aeiou"
+CONSONANTS = "bcdfghjklmnpqrstvwxyz"
 
 
 @click.group()
@@ -87,8 +88,11 @@ def add(ctx, goto, comment):
     API_ENDPOINT = "/api/v1/add/alias"
     headers = {'X-API-Key': MAILCOW_API_KEY}
 
-    data = {"address": random_string_generator() + "." + random_string_generator() + "@" + RELAY_DOMAIN, "goto": goto,
-            "public_comment": comment, "active": 1}
+    data = {"address": readable_random_string(random.randint(3, 9)) + "."
+                       + readable_random_string(random.randint(3, 9)) + "@" + RELAY_DOMAIN,
+            "goto": goto,
+            "public_comment": comment,
+            "active": 1}
 
     try:
         r = requests.post(MAILCOW_INSTANCE + API_ENDPOINT, headers=headers, json=data)
@@ -176,8 +180,12 @@ def delete(ctx, alias_id):
     click.echo("Alias Email:    %s" % data[0]["msg"][1])
 
 
-def random_string_generator():
-    return ''.join(random.choice(ALLOWED_CHARS) for x in range(12))
+def readable_random_string(length: int) -> str:
+    string = ''
+    for x in range(int(length / 2)):
+        string += random.choice(CONSONANTS)
+        string += random.choice(VOWELS)
+    return string
 
 
 # Mailcow IPv6 support relies on a docker proxy which in case would nullify the use of the whitelist.
