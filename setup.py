@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='privacycow',
-    version='0.0.5',
+    version='0.1.0',
     packages=["privacycow"],
     include_package_data=True,
     install_requires=[
