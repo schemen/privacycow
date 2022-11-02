@@ -25,9 +25,10 @@ if isfile(config_path + "config.ini"):
     config = read_config(config_path + "config.ini")
 else:
     makedirs(config_path, exist_ok=True)
-    samplefile = resource_filename(Requirement.parse("privacycow"), "config.ini.example")
+    samplefile = resource_filename(Requirement.parse("privacycow"), "privacycow/config.ini.example")
     copyfile(samplefile, config_path + "config.ini")
     config = read_config(config_path + "config.ini")
+    click.echo("Privacycow ran for the first time.\nMake sure you check your config file at %s" % config_path + "config.ini")
 
 RELAY_DOMAIN = env.get("RELAY_DOMAIN", config['DEFAULT']['RELAY_DOMAIN'])
 MAILCOW_API_KEY = env.get("MAILCOW_API_KEY", config['DEFAULT']['MAILCOW_API_KEY'])
