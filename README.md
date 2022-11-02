@@ -6,7 +6,7 @@
 python3 -m pip install git+https://github.com/schemen/privacycow.git#egg=privacycow
 ```
 
-In "developer mode" (editable):
+### In "developer mode" (editable):
 
 
 using a virtualenv:
@@ -32,13 +32,13 @@ deactivate
 
 ```
 
-Adjust settings, see options further down
+### First run, Adjust settings, see options further down
 
 ```
 # configure your config.ini
-# run privacycow once, it will create a samply config file at
+# run privacycow once, it will create a sample config file at
 # ~/.config/privacycow/config.ini
-privacy && vim ~/.config/privacycow/config.ini
+privacycow && vim ~/.config/privacycow/config.ini
 
 ```
 ## Config
