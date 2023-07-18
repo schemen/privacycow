@@ -3,3 +3,6 @@ RELAY_DOMAIN = privacycow.com
 GOTO = user@example.com
 MAILCOW_API_KEY = api_key
 MAILCOW_INSTANCE = https://mail.example.com
+
+[privacycow.com]
+GOTO = alternative@example.com
