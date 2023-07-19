@@ -30,10 +30,27 @@ else:
     config = read_config(config_path + "config.ini")
     click.echo("Privacycow ran for the first time.\nMake sure you check your config file at %s" % config_path + "config.ini")
 
-RELAY_DOMAIN = env.get("RELAY_DOMAIN", config['DEFAULT']['RELAY_DOMAIN'])
-MAILCOW_API_KEY = env.get("MAILCOW_API_KEY", config['DEFAULT']['MAILCOW_API_KEY'])
-MAILCOW_INSTANCE = env.get("MAILCOW_INSTANCE", config['DEFAULT']['MAILCOW_INSTANCE'])
-GOTO = env.get("GOTO", config['DEFAULT']['GOTO'])
+RELAY_DOMAIN = env.get('RELAY_DOMAIN', config['DEFAULT']['RELAY_DOMAIN'])
+MAILCOW_API_KEY = env.get('MAILCOW_API_KEY')
+if not MAILCOW_API_KEY:
+    if RELAY_DOMAIN in config and 'MAILCOW_API_KEY' in config[RELAY_DOMAIN]:
+        MAILCOW_API_KEY = config[RELAY_DOMAIN]['MAILCOW_API_KEY']
+    else:
+        MAILCOW_API_KEY = config['DEFAULT']['MAILCOW_API_KEY']
+MAILCOW_INSTANCE = env.get("MAILCOW_INSTANCE")
+if not MAILCOW_INSTANCE:
+    if RELAY_DOMAIN in config and 'MAILCOW_INSTANCE' in config[RELAY_DOMAIN]:
+        MAILCOW_INSTANCE = config[RELAY_DOMAIN]['MAILCOW_INSTANCE']
+    else:
+        MAILCOW_INSTANCE = config['DEFAULT']['MAILCOW_INSTANCE']
+GOTO = env.get('GOTO')
+if not GOTO:
+    if RELAY_DOMAIN in config and 'GOTO' in config[RELAY_DOMAIN]:
+        GOTO = config[RELAY_DOMAIN]['GOTO']
+    else:
+        GOTO = config['DEFAULT']['GOTO']
+
+
 VOWELS = "aeiou"
 CONSONANTS = "bcdfghjklmnpqrstvwxyz"
 
@@ -201,5 +218,5 @@ def allowed_gai_family():
 urllib3_cn.allowed_gai_family = allowed_gai_family
 
 ## Uncomment if you want to use it without installing it
-# if __name__ == '__main__':
-#     cli()
+#if __name__ == '__main__':
+#    cli()
