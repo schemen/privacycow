@@ -46,14 +46,35 @@ Have a look at `config.ini.example` for the sample configuration
 
 ```
 [DEFAULT]
-## Domain used as alias domain. I recommend purchasing a unrelated domain and add it to your
-## Mailcow installation. Alternatively you can just use your main domain.
-RELAY_DOMAIN = privacycow.com 
-# The address mails go to.
+# The default domain used as an alias domain. I recommend purchasing an
+# unrelated domain and adding it to your Mailcow installation. Alternatively
+# you can just use your main domain.
+RELAY_DOMAIN = example.com 
+# The address emails will go to if a GOTO is not defined in the
+# [$RELAY_DOMAIN] settings section.
 GOTO = user@example.com
-## Those two settings should be self explanatory
+# These two settings should be self explanatory and will be used if
+# there is not a MAILCOW_API_KEY or MAILCOW_INSTANCE setting in the
+# [$RELAY_DOMAIN] settings section.
 MAILCOW_API_KEY = api_key
 MAILCOW_INSTANCE = https://mail.example.com
+
+[example.com]
+# The settings to be used when example.com is RELAY_DOMAIN.  RELAY_DOMAIN
+# in the [DEFAULT] section is defining this section as the default.
+# All three parameters are optional here as if they are not defined
+# the setting from DEFAULT will be used instead.
+GOTO = another@example.com
+MAILCOW_API_KEY = another_api_key
+MAILCOW_INSTANCE = https://mail.example.com
+
+[example.org]
+# These settings can be used by calling privacycow like this:
+# RELAY_DOMAIN=example.org privacycow list
+GOTO = user@example.org
+# Note we have chosen not to define MAILCOW_API_KEY and
+# MAILCOW_INSTANCE here so the values in [DEFAULT] will be used instead.
+
 
 ```
 
