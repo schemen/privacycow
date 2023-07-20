@@ -67,6 +67,9 @@ MAILCOW_INSTANCE = https://mail.example.com
 GOTO = another@example.com
 MAILCOW_API_KEY = another_api_key
 MAILCOW_INSTANCE = https://mail.example.com
+# how the generated username should be comprised, if TEMPLATE is not
+# supplied the standard mailcow name generator will be used.
+TEMPLATE = {first_name}_{last_name}_{suffix}
 
 [example.org]
 # These settings can be used by calling privacycow like this:
@@ -74,7 +77,9 @@ MAILCOW_INSTANCE = https://mail.example.com
 GOTO = user@example.org
 # Note we have chosen not to define MAILCOW_API_KEY and
 # MAILCOW_INSTANCE here so the values in [DEFAULT] will be used instead.
-
+# see generate_realish_name function in the code for further details
+# on how to format TEMPLATE
+TEMPLATE = {last_name:m:es}-{suffix:m:es}
 
 ```
 
