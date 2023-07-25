@@ -49,7 +49,7 @@ Have a look at `config.ini.example` for the sample configuration
 # The default domain used as an alias domain. I recommend purchasing an
 # unrelated domain and adding it to your Mailcow installation. Alternatively
 # you can just use your main domain.
-RELAY_DOMAIN = example.com 
+RELAY_DOMAIN = example.com
 # The address emails will go to if a GOTO is not defined in the
 # [$RELAY_DOMAIN] settings section.
 GOTO = user@example.com
@@ -80,7 +80,7 @@ GOTO = user@example.org
 
 ## Usage
 ```
-➜  privacycow     
+➜  privacycow
 Usage: privacycow [OPTIONS] COMMAND [ARGS]...
 
 Options:
@@ -91,8 +91,9 @@ Commands:
   add      Create a new random alias.
   delete   Delete a alias.
   disable  Disable a alias, done by setting the "Silently Discard" option.
-  enable   Enable a alias, which disables "Silently Discard".
+  enable   Enable a alias, stop discarding email or collecting spam.
   list     Lists all aliases with the configured privacy domain.
+  spam     Mark all email sent to an alias as spam.
 
 ```
 
@@ -103,22 +104,37 @@ Commands:
 ➜  privacycow add -c "terrible place"
 Success! The following Alias has been created:
 Alias ID:       29
-Alias Email:    5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacycow.com
+Alias Email:    5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@example.com
 Alias Comment:  terrible place
 
 
-➜  privacycow disable 29             
+➜  privacycow disable 29
 Success! The following Alias disabled:
 Alias ID:       29
 Alias Email:    5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacyfwd.ch
 
 
 
-➜  privacycow list      
-ID                        Alias                           Comment       Active 
+➜  privacycow list
+ID                        Alias                           Comment       Status
 ===============================================================================
-22   pQf6qmgMxpa8C.c1Q3sdpDZarqf4ggCe2@privacycow.com  bad actor        Active 
-28   mX4WjTjHcJwa96Vk.xEKpPKbgArysoWvg@privacycow.com  test             Active 
-29   5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@privacycow.com  terrible place   Discard
+22   pQf6qmgMxpa8C.c1Q3sdpDZarqf4ggCe2@example.com  bad actor        Active
+28   mX4WjTjHcJwa96Vk.xEKpPKbgArysoWvg@example.com  test             Active
+29   5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@example.com  terrible place   Discard
 
-``` 
+
+➜  privacycow spam 28
+Success! The following Alias now collects spam:
+Alias ID:       28
+Alias Email:    mX4WjTjHcJwa96Vk.xEKpPKbgArysoWvg@example.com
+
+
+➜  privacycow list
+ID                        Alias                           Comment       Status
+===============================================================================
+22   pQf6qmgMxpa8C.c1Q3sdpDZarqf4ggCe2@example.com  bad actor        Active
+28   mX4WjTjHcJwa96Vk.xEKpPKbgArysoWvg@example.com  spam (test)      Spam
+29   5b25SxYx9J46lJjk.YVuONdYUUA3ekAgU@example.com  terrible place   Discard
+
+
+```
