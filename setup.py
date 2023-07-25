@@ -9,6 +9,8 @@ setup(
         'Click==8.0.1',
         'texttable==1.6.4',
         'requests==2.26.0',
+        'Faker==19.1.0',
+        'Unidecode==1.2.0'
     ],
     package_data={'privacycow': ['config.ini.example']},
     entry_points={
