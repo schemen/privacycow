@@ -166,7 +166,6 @@ def spam(ctx, alias_id):
         r.raise_for_status()
     except requests.exceptions.HTTPError as err:
         raise SystemExit(err)
-    print(r.json())
 
     API_ENDPOINT = "/api/v1/edit/alias"
     data = {
