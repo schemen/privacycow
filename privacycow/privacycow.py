@@ -71,6 +71,7 @@ def list(ctx):
     """Lists all aliases with the configured privacy domain."""
     API_ENDPOINT = "/api/v1/get/alias/all"
     headers = {'X-API-Key': MAILCOW_API_KEY}
+    possible_domains = [RELAY_DOMAIN] + [ccc for ccc in config.sections() if ccc != RELAY_DOMAIN]
 
     try:
         r = requests.get(MAILCOW_INSTANCE + API_ENDPOINT, headers=headers, )
@@ -81,12 +82,14 @@ def list(ctx):
     table = texttable.Texttable()
     table.set_deco(texttable.Texttable.HEADER)
     table.set_max_width(0)
-    table.header(["ID", "Alias", "Comment", "Active"])
+    table.header(["ID", "Alias", "Comment", "Status"])
 
     for i in r.json():
-        if i["domain"] == RELAY_DOMAIN:
+        if i["domain"] in possible_domains:
             if i["goto"] == "null@localhost":
                 active = "Discard"
+            elif i["goto"] == "spam@localhost":
+                active = "Spam"
             else:
                 active = "Active"
 
@@ -151,11 +154,48 @@ def disable(ctx, alias_id):
 
 @cli.command()
 @click.argument('alias_id')
+@click.pass_context
+def spam(ctx, alias_id):
+    """Mark all email sent to an alias as spam."""
+
+    API_ENDPOINT = f"/api/v1/get/alias/{alias_id}"
+    headers = {'X-API-Key': MAILCOW_API_KEY}
+
+    try:
+        r = requests.get(MAILCOW_INSTANCE + API_ENDPOINT, headers=headers, )
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        raise SystemExit(err)
+
+    API_ENDPOINT = "/api/v1/edit/alias"
+    data = {
+        "items": [alias_id],
+        "attr": {
+            "goto_spam": "1",
+            "public_comment": (
+                f'spam ({r.json()["public_comment"]})')}}
+
+    try:
+        r = requests.post(MAILCOW_INSTANCE + API_ENDPOINT, headers=headers, json=data)
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as err:
+        raise SystemExit(err)
+
+    data = r.json()
+
+    click.echo("Success! The following Alias now collects spam:")
+    click.echo("Alias ID:       %s" % data[0]["log"][3]["id"][0])
+    click.echo("Alias Email:    %s" % data[0]["msg"][1])
+    click.echo("Alias Comment:  %s" % data[0]["log"][3]["public_comment"])
+
+
+@cli.command()
+@click.argument('alias_id')
 @click.option('-g', '--goto', default=GOTO,
               help='Goto address "mail@example.com". If no option is passed, GOTO env variable or config.ini will be used.')
 @click.pass_context
 def enable(ctx, alias_id, goto):
-    """Enable a alias, which disables "Silently Discard". """
+    """Enable a alias, stop discarding email or collecting spam. """
     API_ENDPOINT = "/api/v1/edit/alias"
     headers = {'X-API-Key': MAILCOW_API_KEY}
 
